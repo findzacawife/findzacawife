@@ -107,7 +107,7 @@
                     <!-- Field 4: Conflict Protocol (Absurd Textarea) -->
                     <div>
                         <label for="protocol" class="block text-sm font-medium text-gray-700"> List your favourite F1 drivers (Minimum 250 characters)</label>
-                        <textarea id="protocol" rows="4" required minlength="250" placeholder="Applications listing Lewis Hamilton will be burned" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3 border"></textarea>
+                        <textarea id="protocol" rows="4" required minlength="250" placeholder="Applications listing Lance Stroll will be burned" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3 border"></textarea>
                     </div>
 
                     <!-- Field 5: Compliance Check (Absurd Checkbox) -->
@@ -121,7 +121,7 @@
                     </div>
 
                     <div class="pt-4">
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
+                        <button id="audioToggle" type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150">
                             Submit Data for Processing
                         </button>
                     </div>
@@ -291,6 +291,7 @@
                 &copy; 2025 The Affection Alignment Institute (AAI). All Rights Reserved. Emotional data is secured.
             </p>
         </div>
+        <audio id="myAudio" src="./sound/sound.mp3"></audio>
     </footer>
 
     <script>
@@ -531,6 +532,40 @@
             // Start the 3D visualization
             init();
         };
+    </script>
+    <script>
+        const audio = document.getElementById('myAudio');
+        const btn = document.getElementById('audioToggle');
+        const statusText = document.getElementById('statusText');
+
+        btn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play()
+                    .then(() => {
+                        updateUI(true);
+                    })
+                    .catch(error => {
+                        console.error("Playback failed:", error);
+                    });
+            } else {
+                audio.pause();
+                updateUI(false);
+            }
+        });
+
+        // Event listener for when audio ends naturally
+        audio.addEventListener('ended', () => {
+            updateUI(false);
+            audio.currentTime = 0;
+        });
+
+        function updateUI(isPlaying) {
+            if (isPlaying) {
+                btn.classList.add('playing-glow', 'bg-blue-500');
+            } else {
+                btn.classList.remove('playing-glow', 'bg-blue-500');
+            }
+        }
     </script>
 </body>
 </html>
